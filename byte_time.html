@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <title>Hello, world!</title>
+    
+    
+  </head>
+  <body>
+    <h1>ByteTime</h1>
+    <div id="data"></div>
+    <div class="playpause">
+        <input type="checkbox" value="None" id="playpause" name="check" checked />
+        <label for="playpause" tabindex=1></label>
+    </div>
+    <h2>Attività correnti</h2>
+    <hr>
+    <div id="lista">
+
+    </div>
+    <h2>Attività finite</h2>
+    <div id="lista2">
+
+    </div>
+  </body>
+  <style>
+    *{
+            text-align:center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-color: aliceblue;
+      }
+      
+    .playpause label {
+        display: inline-block;
+        box-sizing: border-box;
+        width: 0;
+        height: 74px;
+
+        border-color: transparent transparent transparent #202020;
+        transition: 100ms all ease;
+        cursor: pointer;
+        border-style: double;
+        border-width: 0px 0 0px 60px;
+        margin-top: 20px;
+    }
+    .playpause [type="checkbox"] {
+    position: absolute;
+    left: -9999px;
+    }
+    .playpause input[type="checkbox"]:checked + label {
+      border-style: solid;
+      border-width: 37px 0 37px 60px;
+    }
+    .playpause input[type="checkbox"]:focus + label {
+      box-shadow: 0 0 5px lightblue;
+    }
+  </style>
+  <script>
+        //data
+        let d= new Date
+        let dataStringa=String(d)
+        let array=dataStringa.split(" ")
+        let f=`Today is the ${array[2]}/${array[1]}/${array[3]}`
+        data.innerHTML=f
+        //pulsante play/pausa
+        playpause.addEventListener('click', (event)=>{
+                        var i=prompt("Aggiungi un'attività")
+                        if(i===null || i===""){
+                          document.getElementById("playpause").checked = true;
+                          return;
+                        }else{
+                          document.getElementById("playpause").checked = false;
+                        }
+                        
+                        let aggiungi=document.getElementById('lista')
+                        let hr=document.createElement("hr")
+                        let p=document.createElement("p")
+                        //timer
+                        d0 = new Date(1970,1,1,0,0,0,0);
+                        let orario=document.createElement("p")
+                        orario.id="tempoAggiornato"
+                        let tempoAggiornato = document.getElementById('tempoAggiornato')
+                        var test=setInterval(function(myFunc){
+                        // questo codice che scrivo qui viene eseguito ogni 1 secondi
+                        d0.setMilliseconds( d0.getMilliseconds() + 100 )
+                        var mill = d0.getMilliseconds()
+                        var secondi = d0.getSeconds()
+                        var minuti = d0.getMinutes()
+                        var ore = d0.getHours()
+                        var tempoAggiornato= `${ore}:${minuti}:${secondi}:${mill/10}`
+                        p.innerText=`Attività: ${i}
+                        Timer: ${tempoAggiornato}`
+                        }, 100);
+                        aggiungi.prepend(hr)
+                        aggiungi.prepend(p)
+
+            playpause.addEventListener('click', (event)=>{
+                        aggiungi.removeChild(hr)
+                        aggiungi.removeChild(p)
+                        let selettore=document.getElementById('lista2')
+                        let a=document.createElement("p")
+                        a.innerText=p.innerText
+                        lista2.appendChild(a)
+                        clearInterval(test)
+                        
+        });
+        });
+
+
+    </script>
+</html>
